@@ -1,0 +1,83 @@
+How to Know: Shell Globbing vs Regex
+
+1. Shell Globbing (Wildcard Patterns)
+- Used by: ls, cp, mv, rm, find -name/-iname, bash filename expansion
+- Wildcards:
+    *  → matches 0 or more characters
+    ?  → matches exactly 1 character
+    [abc] → matches any one character inside brackets
+    [!abc] → matches any one character NOT inside brackets
+- Dot (.) is literal
+- No need to escape * ? .
+- Examples:
+    ls *.txt        # matches all files ending with .txt
+    find . -name "file?.txt"   # matches file1.txt, fileA.txt
+
+2. Regex (Regular Expressions)
+- Used by: grep, egrep, sed, awk, perl, grep -P, grep -E
+- Special characters:
+    .  → matches any single character
+    ?  → makes previous character optional (0 or 1)
+    *  → zero or more of previous character
+    ^ $ [] () {} \ | → other regex special symbols
+- Dot (.) must be escaped with \. to match literal dot
+- Examples:
+    echo -e "cat\ncut\ncot" | grep "c.t"   # matches cat, cut, cot
+    echo "file.txt" | grep "file\.txt"     # matches literal file.txt
+
+3. Quick Memory Trick:
+- If the command is **operating on filenames** in the shell → **shell globbing**
+- If the command is **operating on file contents / text** → **regex**
+- Flags can change it:
+    grep -E / grep -P → extended / Perl regex
+    find / ls → always shell glob
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Linux Pattern Matching Cheat Sheet: . vs ?
+
+1. Shell Globbing (used in find, ls, etc.)
+
+Symbol   Meaning
+?        Matches exactly one character
+*        Matches zero or more characters
+.        Literal dot (part of filename, no special meaning)
+[abc]    Matches any one character inside brackets
+[!abc]   Matches any one character NOT inside brackets
+
+Examples:
+find . -name "*.txt"        # matches any file ending with .txt
+ls file?.txt                # matches file1.txt, fileA.txt
+ls file*.txt                # matches file.txt, file10.txt, fileABC.txt
+
+Tip: In shell globbing, dot does NOT need escaping.
+
+2. Regex (used in grep, sed, awk, etc.)
+
+Symbol   Meaning
+.        Matches any single character
+?        Makes previous character optional (0 or 1)
+*        Matches zero or more of the previous character
+\        Escape special character (like . or ?)
+
+Examples:
+echo -e "cat\ncut\ncot" | grep "c.t"   # matches cat, cut, cot
+echo -e "cat\ncut\ncot" | grep "c?t"   # matches ct (c is optional)
+echo "file.txt" | grep "file\.txt"     # matches literal file.txt
+
+Memory Tips:
+- Shell glob: ? = single-char wildcard, * = multi-char wildcard, . = literal
+- Regex: . = any-char, ? = optional prev char, \. = literal dot
+
+3. Quick Difference Table
+
+Context          | Symbol | Meaning               | Escape needed?
+-----------------|--------|---------------------|---------------
+Shell glob / find| .      | Literal dot           | No
+Shell glob / find| ?      | Single character      | No
+Regex (grep)     | .      | Any single character  | Yes, use \. for literal
+Regex (grep)     | ?      | Previous char optional| Only for previous char
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+

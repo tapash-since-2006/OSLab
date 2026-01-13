@@ -1,0 +1,26 @@
+A) Sort optinal things:
+1) -r --> reverse order
+2) -n --> number
+
+
+B) Word Count(wc file.txt) -> give output in form (lines words bytes)
+1) -l --> only lines
+2) -w --> only words
+3) -c --> only bytes
+
+C) Cut
+
+1) Cut by Character: cut -c 1-3 file.txt --> take characters 1 to 3 from each line.
+2) Cut by Field: cut -f 2 -d ',' file.txt --> -f2 → take field 2 -d ',' → fields are separated by comma
+💡Tip: Default delimiter is tab if -d is not specified.
+
+e.g 
+apple,banana,cherry
+dog,cat,mouse
+
+o/p:
+banana
+cat
+
+
+

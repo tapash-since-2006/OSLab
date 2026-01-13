@@ -1,0 +1,55 @@
+# --------------------------
+# SED (Stream Editor) Cheat Sheet
+# --------------------------
+
+# 1. Substitute first occurrence in each line
+sed 's/old/new/' file.txt
+# Replaces first "old" with "new" per line
+
+# 2. Substitute all occurrences in each line (global)
+sed 's/old/new/g' file.txt
+# Replaces all "old" with "new" in each line
+
+# 3. Substitute only on a specific line
+sed '2s/old/new/' file.txt
+# Replaces "old" with "new" only on line 2
+
+# 4. Substitute with different delimiter (useful for paths)
+sed 's|/home/user|/root|g' file.txt
+# Replaces "/home/user" with "/root" globally
+
+# 5. Delete a specific line
+sed '3d' file.txt
+# Deletes line 3
+
+# 6. Delete lines matching a pattern
+sed '/pattern/d' file.txt
+# Deletes all lines containing "pattern"
+
+# 7. Print specific line(s)
+sed -n '2p' file.txt
+# Prints line 2 only
+sed -n '1,3p' file.txt
+# Prints lines 1 to 3
+
+# 8. Insert text before a line
+sed '2i\Inserted line' file.txt
+# Inserts "Inserted line" before line 2
+
+# 9. Append text after a line
+sed '2a\Appended line' file.txt
+# Appends "Appended line" after line 2
+
+# 10. Replace text in file in-place
+sed -i 's/old/new/g' file.txt
+# Replaces all "old" with "new" and saves changes to file
+
+# 11. Cut from standard input using echo
+echo "IT is fun" | sed 's/IT/Information Technology/g'
+# Output: Information Technology is fun
+
+# 12. Complementary examples
+sed -n '/pattern/p' file.txt
+# Prints only lines containing "pattern"
+sed -n '/^$/d' file.txt
+# Deletes empty lines in output

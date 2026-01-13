@@ -1,0 +1,23 @@
+Note: Grep normally returns the whole file after matching the substring i.e returns the whole line in which the substring is found.....
+
+1) Matches the substring: grep "ram" file.txt (// it matches both ram and ramu).
+
+2) Matches a particular word: grep -w "ram" file.txt (// doesnot match the word ramu).
+
+3) Matches the whole line not a substring onlu : grep -x "ram" file.txt (// doesnot match "ram is a boy" as it contains other words than ram in the same line).
+
+4) Ignore the case (case insensitive): grep -I "ram" file.txt
+
+5) Except the substring every other is printed(Inverted) : grep -v "ram" file.txt.
+
+6) shows line number : grep -n "ram" file.txt
+
+7) count number of matches: grep -c "ram" file.txt
+
+8) matches containing wither ram or shyam: grep -E "ram|shyam" file.txt
+
+9) print only the matched part: hrep -o "ram" file.txt
+
+Note: 	grep "^ram" means the line starts with ram
+	grep "\.$" means the line ends with . and "\." is the escpae charcter
+	

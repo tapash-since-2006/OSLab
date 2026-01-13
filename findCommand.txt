@@ -1,0 +1,7 @@
+1) Show all .txt file in current directory only: find . -maxdepth 1 -name "*.txt"
+
+2) Show all .txt file in current directory and subdirecrories: find . -name ".txt". // remember the . after find means the current directory.
+
+3)Shows only files: find . -type f -name ".txt" (folders are excluded).
+
+4) Case insensitive: find . -iname ".txt"
