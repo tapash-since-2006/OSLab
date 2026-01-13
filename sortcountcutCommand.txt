@@ -23,4 +23,22 @@ banana
 cat
 
 
+D) Translate
+
+1) tr 'a-z' 'A-Z' < file.txt (converts all lower case to upper case)
+2) tr -d '\r' < file.txt (deletes all the /r in the file)
+
+
+
+E) Calculator
+
+1) echo "5/2" | bc ---> (here bc is the command and it calculates)
+	O/P is 2
+
+
+
+
+
+
+
 

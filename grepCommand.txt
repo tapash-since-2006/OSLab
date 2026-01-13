@@ -20,4 +20,9 @@ Note: Grep normally returns the whole file after matching the substring i.e retu
 
 Note: 	grep "^ram" means the line starts with ram
 	grep "\.$" means the line ends with . and "\." is the escpae charcter
+
+
+Note: -E (extended regex) us only needed when we use extended regex features like +(one or more than one), ?(0 or 1)(i.e optional), |(or), etc
+
+e.g 1) Match exactly 3 letters --> grep -E '^.{3}$' file.txt
 	

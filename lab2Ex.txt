@@ -1,0 +1,32 @@
+Q) How to create a file and add content to it from the command line only?
+-> cat >> file.txt "Enter"
+
+	Hello World
+	This is line 2
+	12345
+	CTRL+D
+
+
+
+
+2i) grep '^..$' file.txt
+ii) grep '^[A-z]' file.txt
+iii) grep '\.$' file.txt
+iv) grep -E ' +' file.txt (// means one or more spaces)
+v)  grep '[0-9]' file.txt > digits.txt( here important thing to note is that 
+this creates a file or overwrites the existing file)
+
+so, what we can do is grep '[0-9]' file.txt >> digits.txt (this appends to the existing file or creates it if not already present..
+
+
+3) vi studentInformation.txt --> Press i(insert mode) --> Type content --> Press Esc
+---> type :wq(write/save and than quit) ----> optional to verify type command cat studentInformation.txt 
+
+i) grep ':ICT:' studentInformation.txt | wc -l
+ii) sed 's/:IT:/:Information Technology:/g' studentInformation.txt > ITStudent.txt
+iii) 	sum=$(grep '^1234:' studentInformation.txt | cut -d ':' -f 6-8 | tr ':' '+' | bc)
+	average=$(echo "$sum/3" | bc)
+	echo "Average: $average"
+
+
+

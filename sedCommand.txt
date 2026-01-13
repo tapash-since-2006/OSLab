@@ -40,7 +40,7 @@ sed '2i\Inserted line' file.txt
 sed '2a\Appended line' file.txt
 # Appends "Appended line" after line 2
 
-# 10. Replace text in file in-place
+# 10. Replace text in file in-place i.e permanent change
 sed -i 's/old/new/g' file.txt
 # Replaces all "old" with "new" and saves changes to file
 
