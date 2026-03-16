@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Check whether input is file or directory
+read fname
+
+if [ -d "$fname" ]; then
+  echo directory
+elif [ -f "$fname" ]; then
+  echo file
+else
+  echo notexist
+fi
+
+# Search pattern in files of a folder
+read folder
+read pattern
+
+if [ -d "$folder" ]; then
+  grep -l "$pattern" "$folder"/*
+else
+  echo notexist
+fi
+
+# Rename all .txt files to .text recursively
+find . -type f -name "*.txt" | while read file
+do
+  newname="${file%.txt}.text"
+  mv "$file" "$newname"
+done
+
+# Gross salary calculation using bc
+read basic
+read ta
+
+hra=$(echo "0.10 * $basic" | bc -l)
+
+gs=$(echo "$basic + $ta + $hra" | bc -l)
+
+echo $gs
+
+# Copy files of given extension to new folder
+read ext
+read dest
+
+mkdir -p "$dest"
+
+for file in *"$ext"
+do
+  if [ -f "$file" ]; then
+    cp "$file" "$dest"/
+  fi
+done

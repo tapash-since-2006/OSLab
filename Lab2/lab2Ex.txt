@@ -20,7 +20,7 @@ so, what we can do is grep '[0-9]' file.txt >> digits.txt (this appends to the e
 
 
 3) vi studentInformation.txt --> Press i(insert mode) --> Type content --> Press Esc
----> type :wq(write/save and than quit) ----> optional to verify type command cat studentInformation.txt 
+---> type :wq (write/save and than quit) ----> optional to verify type command cat studentInformation.txt 
 
 i) grep ':ICT:' studentInformation.txt | wc -l
 ii) sed 's/:IT:/:Information Technology:/g' studentInformation.txt > ITStudent.txt

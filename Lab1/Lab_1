@@ -1,0 +1,344 @@
+
+			Commands for Navigatig the UNIX file system:
+
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ pwd
+/home/osl-4cce-d2/Documents/240953190/Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cd ~
+osl-4cce-d2@sce-cl12-32:~$ cd Documents
+osl-4cce-d2@sce-cl12-32:~/Documents$ cd 240953190
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ cd -
+/home/osl-4cce-d2/Documents
+osl-4cce-d2@sce-cl12-32:~/Documents$ cd 240953190
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ cd Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cd ../
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls
+'OS lab manual_2026.pdf'   Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls Documents
+ls: cannot access 'Documents': No such file or directory
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls /Documents
+ls: cannot access '/Documents': No such file or directory
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls Week_1
+SolvedExample
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls
+'OS lab manual_2026.pdf'   Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls Week_1
+SolvedExample
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls -l
+total 1472
+-rw-r--r-- 1 osl-4cce-d2 osl-4cce-d2 1502999 Jan  5 09:15 'OS lab manual_2026.pdf'
+drwxr-xr-x 2 osl-4cce-d2 osl-4cce-d2    4096 Jan  7 09:30  Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls -a
+ .   ..  'OS lab manual_2026.pdf'   Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls -ld Week_1
+drwxr-xr-x 2 osl-4cce-d2 osl-4cce-d2 4096 Jan  7 09:30 Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls /usr/bin/d*
+/usr/bin/dash                                /usr/bin/dircolors
+/usr/bin/date                                /usr/bin/dirmngr
+/usr/bin/dbus-cleanup-sockets                /usr/bin/dirmngr-client
+/usr/bin/dbus-daemon                         /usr/bin/dirname
+/usr/bin/dbus-monitor                        /usr/bin/discover-config
+/usr/bin/dbus-run-session                    /usr/bin/dmesg
+/usr/bin/dbus-send                           /usr/bin/dnsdomainname
+/usr/bin/dbus-update-activation-environment  /usr/bin/dnstap-read
+/usr/bin/dbus-uuidgen                        /usr/bin/domainname
+/usr/bin/dbxtool                             /usr/bin/dotlockfile
+/usr/bin/dconf                               /usr/bin/dpkg
+/usr/bin/dd                                  /usr/bin/dpkg-architecture
+/usr/bin/deallocvt                           /usr/bin/dpkg-buildflags
+/usr/bin/debconf                             /usr/bin/dpkg-buildpackage
+/usr/bin/debconf-apt-progress                /usr/bin/dpkg-checkbuilddeps
+/usr/bin/debconf-communicate                 /usr/bin/dpkg-deb
+/usr/bin/debconf-copydb                      /usr/bin/dpkg-distaddfile
+/usr/bin/debconf-escape                      /usr/bin/dpkg-divert
+/usr/bin/debconf-set-selections              /usr/bin/dpkg-genbuildinfo
+/usr/bin/debconf-show                        /usr/bin/dpkg-genchanges
+/usr/bin/debianbts                           /usr/bin/dpkg-gencontrol
+/usr/bin/deb-systemd-helper                  /usr/bin/dpkg-gensymbols
+/usr/bin/deb-systemd-invoke                  /usr/bin/dpkg-maintscript-helper
+/usr/bin/defmt-c                             /usr/bin/dpkg-mergechangelogs
+/usr/bin/defmt-sh                            /usr/bin/dpkg-name
+/usr/bin/dehtmldiff                          /usr/bin/dpkg-parsechangelog
+/usr/bin/delpart                             /usr/bin/dpkg-query
+/usr/bin/delv                                /usr/bin/dpkg-realpath
+/usr/bin/desktop-file-edit                   /usr/bin/dpkg-scanpackages
+/usr/bin/desktop-file-install                /usr/bin/dpkg-scansources
+/usr/bin/desktop-file-validate               /usr/bin/dpkg-shlibdeps
+/usr/bin/df                                  /usr/bin/dpkg-source
+/usr/bin/dh_bash-completion                  /usr/bin/dpkg-split
+/usr/bin/dh_installxmlcatalogs               /usr/bin/dpkg-statoverride
+/usr/bin/dh_numpy3                           /usr/bin/dpkg-trigger
+/usr/bin/dh_perl_openssl                     /usr/bin/dpkg-vendor
+/usr/bin/dh_python3-ply                      /usr/bin/driverless
+/usr/bin/dialog                              /usr/bin/driverless-fax
+/usr/bin/diff                                /usr/bin/du
+/usr/bin/diff3                               /usr/bin/dumpcap
+/usr/bin/diffstat                            /usr/bin/dumpkeys
+/usr/bin/dig                                 /usr/bin/dvipdf
+/usr/bin/dir                                 /usr/bin/dwp
+
+
+
+
+			Working with Files and Directories:
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ touch examplefile
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ file examplefile
+examplefile: empty
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ file SolvedExample
+SolvedExample: ASCII text
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ file /bin/ls
+/bin/ls: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=15dfff3239aa7c3b16a71e6b2e3b6e4009dab998, for GNU/Linux 3.2.0, stripped
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cat SolvedExample
+
+			Commands for Navigatig the UNIX file system:
+
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ pwd
+/home/osl-4cce-d2/Documents/240953190/Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cd ~
+osl-4cce-d2@sce-cl12-32:~$ cd Documents
+osl-4cce-d2@sce-cl12-32:~/Documents$ cd 240953190
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ cd -
+/home/osl-4cce-d2/Documents
+osl-4cce-d2@sce-cl12-32:~/Documents$ cd 240953190
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ cd Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cd ../
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls
+'OS lab manual_2026.pdf'   Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls Documents
+ls: cannot access 'Documents': No such file or directory
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls /Documents
+ls: cannot access '/Documents': No such file or directory
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls Week_1
+SolvedExample
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls
+'OS lab manual_2026.pdf'   Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls Week_1
+SolvedExample
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls -l
+total 1472
+-rw-r--r-- 1 osl-4cce-d2 osl-4cce-d2 1502999 Jan  5 09:15 'OS lab manual_2026.pdf'
+drwxr-xr-x 2 osl-4cce-d2 osl-4cce-d2    4096 Jan  7 09:30  Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls -a
+ .   ..  'OS lab manual_2026.pdf'   Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls -ld Week_1
+drwxr-xr-x 2 osl-4cce-d2 osl-4cce-d2 4096 Jan  7 09:30 Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ ls /usr/bin/d*
+/usr/bin/dash                                /usr/bin/dircolors
+/usr/bin/date                                /usr/bin/dirmngr
+/usr/bin/dbus-cleanup-sockets                /usr/bin/dirmngr-client
+/usr/bin/dbus-daemon                         /usr/bin/dirname
+/usr/bin/dbus-monitor                        /usr/bin/discover-config
+/usr/bin/dbus-run-session                    /usr/bin/dmesg
+/usr/bin/dbus-send                           /usr/bin/dnsdomainname
+/usr/bin/dbus-update-activation-environment  /usr/bin/dnstap-read
+/usr/bin/dbus-uuidgen                        /usr/bin/domainname
+/usr/bin/dbxtool                             /usr/bin/dotlockfile
+/usr/bin/dconf                               /usr/bin/dpkg
+/usr/bin/dd                                  /usr/bin/dpkg-architecture
+/usr/bin/deallocvt                           /usr/bin/dpkg-buildflags
+/usr/bin/debconf                             /usr/bin/dpkg-buildpackage
+/usr/bin/debconf-apt-progress                /usr/bin/dpkg-checkbuilddeps
+/usr/bin/debconf-communicate                 /usr/bin/dpkg-deb
+/usr/bin/debconf-copydb                      /usr/bin/dpkg-distaddfile
+/usr/bin/debconf-escape                      /usr/bin/dpkg-divert
+/usr/bin/debconf-set-selections              /usr/bin/dpkg-genbuildinfo
+/usr/bin/debconf-show                        /usr/bin/dpkg-genchanges
+/usr/bin/debianbts                           /usr/bin/dpkg-gencontrol
+/usr/bin/deb-systemd-helper                  /usr/bin/dpkg-gensymbols
+/usr/bin/deb-systemd-invoke                  /usr/bin/dpkg-maintscript-helper
+/usr/bin/defmt-c                             /usr/bin/dpkg-mergechangelogs
+/usr/bin/defmt-sh                            /usr/bin/dpkg-name
+/usr/bin/dehtmldiff                          /usr/bin/dpkg-parsechangelog
+/usr/bin/delpart                             /usr/bin/dpkg-query
+/usr/bin/delv                                /usr/bin/dpkg-realpath
+/usr/bin/desktop-file-edit                   /usr/bin/dpkg-scanpackages
+/usr/bin/desktop-file-install                /usr/bin/dpkg-scansources
+/usr/bin/desktop-file-validate               /usr/bin/dpkg-shlibdeps
+/usr/bin/df                                  /usr/bin/dpkg-source
+/usr/bin/dh_bash-completion                  /usr/bin/dpkg-split
+/usr/bin/dh_installxmlcatalogs               /usr/bin/dpkg-statoverride
+/usr/bin/dh_numpy3                           /usr/bin/dpkg-trigger
+/usr/bin/dh_perl_openssl                     /usr/bin/dpkg-vendor
+/usr/bin/dh_python3-ply                      /usr/bin/driverless
+/usr/bin/dialog                              /usr/bin/driverless-fax
+/usr/bin/diff                                /usr/bin/du
+/usr/bin/diff3                               /usr/bin/dumpcap
+/usr/bin/diffstat                            /usr/bin/dumpkeys
+/usr/bin/dig                                 /usr/bin/dvipdf
+/usr/bin/dir                                 /usr/bin/dwp
+
+
+
+
+Working with Files and Directories:
+
+
+
+
+
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ head SolvedExample
+
+Commands for Navigatig the UNIX file system:
+
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ pwd
+/home/osl-4cce-d2/Documents/240953190/Week_1
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cd ~
+osl-4cce-d2@sce-cl12-32:~$ cd Documents
+osl-4cce-d2@sce-cl12-32:~/Documents$ cd 240953190
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190$ cd -
+/home/osl-4cce-d2/Documents
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ tail SolvedExample
+
+
+
+
+Working with Files and Directories:
+
+
+
+
+
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cp SolvedExample/240953190
+cp: missing destination file operand after 'SolvedExample/240953190'
+Try 'cp --help' for more information.
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cp SolvedExample/Week101
+cp: missing destination file operand after 'SolvedExample/Week101'
+Try 'cp --help' for more information.
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cp SolvedExample/Week101
+cp: missing destination file operand afth -name wiler 'SolvedExample/Week101'
+Try 'cp --help' for more information.
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cp --
+cp: missing file operand
+Try 'cp --help' for more information.
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cp --help
+Usage: cp [OPTION]... [-T] SOURCE DEST
+  or:  cp [OPTION]... SOURCE... DIRECTORY
+  or:  cp [OPTION]... -t DIRECTORY SOURCE...
+Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -a, --archive                same as -dR --preserve=all
+      --attributes-only        don't copy the file data, just the attributes
+      --backup[=CONTROL]       make a backup of each existing destination file
+  -b                           like --backup but does not accept an argument
+      --copy-contents          copy contents of special files when recursive
+  -d                           same as --no-dereference --preserve=links
+  -f, --force                  if an existing destination file cannot be
+                                 opened, remove it and try again (this option
+                                 is ignored when the -n option is also used)
+  -i, --interactive            prompt before overwrite (overrides a previous -n
+                                  option)
+  -H                           follow command-line symbolic links in SOURCE
+  -l, --link                   hard link files instead of copying
+  -L, --dereference            always follow symbolic links in SOURCE
+  -n, --no-clobber             do not overwrite an existing file (overrides
+                                 a previous -i option)
+  -P, --no-dereference         never follow symbolic links in SOURCE
+  -p                           same as --preserve=mode,ownership,timestamps
+      --preserve[=ATTR_LIST]   preserve the specified attributes (default:
+                                 mode,ownership,timestamps), if possible
+                                 additional attributes: context, links, xattr,
+                                 all
+      --no-preserve=ATTR_LIST  don't preserve the specified attributes
+      --parents                use full source file name under DIRECTORY
+  -R, -r, --recursive          copy directories recursively
+      --reflink[=WHEN]         control clone/CoW copies. See below
+      --remove-destination     remove each existing destination file before
+                                 attempting to open it (contrast with --force)
+      --sparse=WHEN            control creation of sparse files. See below
+      --strip-trailing-slashes  remove any trailing slashes from each SOURCE
+                                 argument
+  -s, --symbolic-link          make symbolic links instead of copying
+  -S, --suffix=SUFFIX          override the usual backup suffix
+  -t, --target-directory=DIRECTORY  copy all SOURCE arguments into DIRECTORY
+  -T, --no-target-directory    treat DEST as a normal file
+  -u, --update                 copy only when the SOURCE file is newer
+                                 than the destination file or when the
+                                 destination file is missing
+  -v, --verbose                explain what is being done
+  -x, --one-file-system        stay on this file system
+  -Z                           set SELinux security context of destination
+                                 file to default type
+      --context[=CTX]          like -Z, or if CTX is specified then set the
+                                 SELinux or SMACK security context to CTX
+      --help        display this help and exit
+      --version     output version information and exit
+
+By default, sparse SOURCE files are detected by a crude heuristic and the
+corresponding DEST file is made sparse as well.  That is the behavior
+selected by --sparse=auto.  Specify --sparse=always to create a sparse DEST
+file whenever the SOURCE file contains a long enough sequence of zero bytes.
+Use --sparse=never to inhibit creation of sparse files.
+
+When --reflink[=always] is specified, perform a lightweight copy, where the
+data blocks are copied only when modified.  If this is not possible the copy
+fails, or if --reflink=auto is specified, fall back to a standard copy.
+Use --reflink=never to ensure a standard copy is performed.
+
+The backup suffix is '~', unless set with --suffix or SIMPLE_BACKUP_SUFFIX.
+The version control method may be selected via the --backup option or through
+the VERSION_CONTROL environment variable.  Here are the values:
+
+  none, off       never make backups (even if --backup is given)
+  numbered, t     make numbered backups
+  existing, nil   numbered if numbered backups exist, simple otherwise
+  simple, never   always make simple backups
+
+As a special case, cp makes a backup of SOURCE when the force and backup
+options are given and SOURCE and DEST are the same name for an existing,
+regular file.
+
+GNU coreutils online help: <https://www.gnu.org/software/coreutils/>
+Full documentation <https://www.gnu.org/software/coreutils/cp>
+or available locally via: info '(coreutils) cp invocation'
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cp SolvedExampleWeek_101
+cp: missing destination file operand after 'SolvedExampleWeek_101'
+Try 'cp --help' for more information.
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cp SolvedExample Week_101
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ mv examplefile Week_101
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ cd Week_101
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1/Week_101$ rm examplefile
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1/Week_101$ cd ../
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ mkdir Week_102
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ rmdir Week_102
+
+
+
+
+
+			Commands Used For Finding Thing
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ which grep
+/usr/bin/grep
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ whereis ls
+ls: /usr/bin/ls /usr/share/man/man1/ls.1.gz
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ find *ple
+SolvedExample
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1$ 
+
+NOte: PLease not that the locate command in not working
+
+
+
+
+
+
+				LAB EXERCISE QN NO 3
+		
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1/Week_101$ ls
+abx  HelloManipal.txt  Tapash240  TapashUpadhyay
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1/Week_101$ find *.txt
+HelloManipal.txt
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1/Week_101$ find *[0-9]*
+Tapash240
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1/Week_101$ find *????*
+HelloManipal.txt
+Tapash240
+TapashUpadhyay
+osl-4cce-d2@sce-cl12-32:~/Documents/240953190/Week_1/Week_101$ find [!aeiou]*
+HelloManipal.txt
+Tapash240
+TapashUpadhyay
+
+
+
+
+

@@ -1,0 +1,123 @@
+#!/bin/bash
+
+# Variable declaration
+name="John"
+x=10
+
+# Display variable values
+echo $name
+echo $x
+
+# Environment variable
+PATH=/bin:/usr/bin:.
+export PATH
+
+echo $PATH
+
+# Read two numbers
+read a b
+
+# Display input values
+echo $a
+echo $b
+
+# Integer arithmetic using expr
+sum=`expr $a + $b`
+diff=`expr $a - $b`
+prod=`expr $a \* $b`
+div=`expr $a / $b`
+mod=`expr $a % $b`
+
+# Display arithmetic results
+echo $sum
+echo $diff
+echo $prod
+echo $div
+echo $mod
+
+# Compare two numbers
+if [ $a -eq $b ]; then
+  echo equal
+else
+  echo notequal
+fi
+
+# Read filename
+read fname
+
+# File test operators
+if [ -f "$fname" ]; then
+  echo file
+fi
+
+if [ -d "$fname" ]; then
+  echo directory
+fi
+
+if [ -e "$fname" ]; then
+  echo exists
+fi
+
+# Simple if condition
+read n
+
+if [ $n -gt 10 ]; then
+  echo greater
+fi
+
+# if–else condition
+read num
+
+if [ $num -ge 0 ]; then
+  echo positive
+else
+  echo negative
+fi
+
+# if–elif–else ladder
+read p q
+
+if [ $p -eq $q ]; then
+  echo equal
+elif [ $p -gt $q ]; then
+  echo pgreater
+else
+  echo qgreater
+fi
+
+# for loop
+for i in 1 2 3 4 5
+do
+  echo $i
+done
+
+# while loop
+i=1
+while [ $i -le 5 ]
+do
+  echo $i
+  i=`expr $i + 1`
+done
+
+# until loop
+j=1
+until [ $j -gt 5 ]
+do
+  echo $j
+  j=`expr $j + 1`
+done
+
+# Floating point division using bc
+read x y
+
+result=$(echo "$x / $y" | bc -l)
+
+echo $result
+
+# Exit status of last command
+echo $?
+
+# Script execution commands
+echo "bash lab3_commands.sh"
+echo "chmod +x lab3_commands.sh"
+echo "./lab3_commands.sh"

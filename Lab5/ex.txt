@@ -1,0 +1,410 @@
+Q1)
+
+#include <stdio.h>
+#include <limits.h>
+
+int main() {
+    int n = 4;
+    int at[] = {0,3,4,9};
+    int bt[] = {60,30,40,10};
+    int pr[] = {3,2,1,4};
+    int wt[4], tat[4], ct[4];
+    int choice;
+
+    printf("1.FCFS\n2.SRTF\n3.Round Robin\n4.Non Preemptive Priority\n");
+    printf("Enter choice: ");
+    scanf("%d",&choice);
+
+    if(choice==1) {
+        // FCFS
+        ct[0] = at[0] + bt[0];
+        for(int i=1;i<n;i++)
+            ct[i] = ct[i-1] + bt[i];
+
+        for(int i=0;i<n;i++){
+            tat[i] = ct[i] - at[i];
+            wt[i] = tat[i] - bt[i];
+        }
+    }
+
+    else if(choice==2) {
+        // SRTF
+        int rt[4];
+        for(int i=0;i<n;i++) rt[i]=bt[i];
+
+        int complete=0,time=0,minm,shortest;
+        while(complete!=n){
+            minm=INT_MAX;
+            for(int j=0;j<n;j++){
+                if(at[j]<=time && rt[j]>0 && rt[j]<minm){
+                    minm=rt[j];
+                    shortest=j;
+                }
+            }
+            rt[shortest]--;
+            time++;
+
+            if(rt[shortest]==0){
+                complete++;
+                ct[shortest]=time;
+            }
+        }
+
+        for(int i=0;i<n;i++){
+            tat[i]=ct[i]-at[i];
+            wt[i]=tat[i]-bt[i];
+        }
+    }
+
+    else if(choice==3){
+        // Round Robin (q=10)
+        int tq=10;
+        int rt[4];
+        for(int i=0;i<n;i++) rt[i]=bt[i];
+
+        int time=0;
+        while(1){
+            int done=1;
+            for(int i=0;i<n;i++){
+                if(rt[i]>0){
+                    done=0;
+                    if(rt[i]>tq){
+                        time+=tq;
+                        rt[i]-=tq;
+                    } else{
+                        time+=rt[i];
+                        rt[i]=0;
+                        ct[i]=time;
+                    }
+                }
+            }
+            if(done) break;
+        }
+
+        for(int i=0;i<n;i++){
+            tat[i]=ct[i]-at[i];
+            wt[i]=tat[i]-bt[i];
+        }
+    }
+
+    else if(choice==4){
+        // Non Preemptive Priority (higher number higher priority)
+        int done[4]={0};
+        int time=0,count=0,maxp,idx;
+
+        while(count<n){
+            maxp=-1;
+            for(int i=0;i<n;i++){
+                if(at[i]<=time && done[i]==0){
+                    if(pr[i]>maxp){
+                        maxp=pr[i];
+                        idx=i;
+                    }
+                }
+            }
+            time+=bt[idx];
+            ct[idx]=time;
+            done[idx]=1;
+            count++;
+        }
+
+        for(int i=0;i<n;i++){
+            tat[i]=ct[i]-at[i];
+            wt[i]=tat[i]-bt[i];
+        }
+    }
+
+    float avg_wt=0, avg_tat=0;
+
+    printf("\nProcess\tWT\tTAT\n");
+    for(int i=0;i<n;i++){
+        printf("P%d\t%d\t%d\n",i+1,wt[i],tat[i]);
+        avg_wt+=wt[i];
+        avg_tat+=tat[i];
+    }
+
+    printf("\nAverage WT = %.2f",avg_wt/n);
+    printf("\nAverage TAT = %.2f",avg_tat/n);
+
+    return 0;
+}
+
+/*
+GANTT CHARTS:
+
+FCFS:
+0 |P1| 60 |P2| 90 |P3| 130 |P4| 140
+
+SRTF:
+0 |P1| 3 |P2| 33 |P4| 43 |P3| 83 |P1| 140
+
+Round Robin (q=10):
+0 |P1|10|P2|20|P3|30|P1|40|P4|50|P2|60|P3|70|P1|80|P3|90|P1|100|P1|140
+
+Non Preemptive Priority:
+0 |P1| 60 |P4| 70 |P2| 100 |P3| 140
+*/
+
+
+
+Q2)
+#include <stdio.h>
+
+int main() {
+    int bt[] = {60,30,40,10};
+    int n=4;
+    int tq1=5, tq2=10;
+    int time=0;
+
+    // Queue 1
+    for(int i=0;i<n;i++){
+        if(bt[i]>tq1){
+            bt[i]-=tq1;
+            time+=tq1;
+        } else{
+            time+=bt[i];
+            bt[i]=0;
+        }
+    }
+
+    // Queue 2
+    for(int i=0;i<n;i++){
+        if(bt[i]>0){
+            if(bt[i]>tq2){
+                bt[i]-=tq2;
+                time+=tq2;
+            } else{
+                time+=bt[i];
+                bt[i]=0;
+            }
+        }
+    }
+
+    // Remaining FCFS
+    for(int i=0;i<n;i++){
+        if(bt[i]>0){
+            time+=bt[i];
+        }
+    }
+
+    printf("Total Completion Time = %d\n",time);
+    return 0;
+}
+
+/*
+Sample Gantt (depends on queue structure):
+0 |P1|5|P2|10|P3|15|P4|20| ... continues
+*/
+
+
+
+
+Q3)
+#include <stdio.h>
+
+int main() {
+    int deadline[] = {20,15,25,30};
+    int bt[] = {60,30,40,10};
+    int n=4;
+
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            if(deadline[i]>deadline[j]){
+                int temp=deadline[i];
+                deadline[i]=deadline[j];
+                deadline[j]=temp;
+
+                temp=bt[i];
+                bt[i]=bt[j];
+                bt[j]=temp;
+            }
+        }
+    }
+
+    int time=0;
+    for(int i=0;i<n;i++)
+        time+=bt[i];
+
+    printf("Total Completion Time = %d\n",time);
+
+    return 0;
+}
+
+/*
+EDF Gantt (based on deadlines sorted):
+Earliest deadline first execution order.
+*/
+
+
+
+4)
+#include <stdio.h>
+
+int main() {
+    int n;
+    printf("Enter number of processes: ");
+    scanf("%d",&n);
+
+    int bt[n], wt[n], tat[n], ct[n];
+
+    for(int i=0;i<n;i++){
+        printf("Enter Burst Time of P%d: ",i+1);
+        scanf("%d",&bt[i]);
+    }
+
+    // All arrival time = 0
+
+    ct[0] = bt[0];
+    for(int i=1;i<n;i++)
+        ct[i] = ct[i-1] + bt[i];
+
+    for(int i=0;i<n;i++){
+        tat[i] = ct[i];          // AT = 0
+        wt[i] = tat[i] - bt[i];
+    }
+
+    float avg_wt=0, avg_tat=0;
+
+    printf("\nProcess\tWT\tTAT\n");
+    for(int i=0;i<n;i++){
+        printf("P%d\t%d\t%d\n",i+1,wt[i],tat[i]);
+        avg_wt += wt[i];
+        avg_tat += tat[i];
+    }
+
+    printf("\nAverage WT = %.2f",avg_wt/n);
+    printf("\nAverage TAT = %.2f\n",avg_tat/n);
+
+    return 0;
+}
+
+/*
+Example:
+BT: 10 5 8
+
+Gantt Chart:
+0 |P1| 10 |P2| 15 |P3| 23
+*/
+
+
+
+
+5)
+
+#include <stdio.h>
+#include <limits.h>
+
+int main() {
+    int n;
+    printf("Enter number of processes: ");
+    scanf("%d",&n);
+
+    int at[n], bt[n], wt[n], tat[n], ct[n];
+    int done[n];
+
+    for(int i=0;i<n;i++){
+        printf("Enter Arrival Time and Burst Time of P%d: ",i+1);
+        scanf("%d %d",&at[i],&bt[i]);
+        done[i]=0;
+    }
+
+    int complete=0, time=0, idx;
+
+    while(complete < n){
+        int min = INT_MAX;
+        idx = -1;
+
+        for(int i=0;i<n;i++){
+            if(at[i] <= time && done[i]==0 && bt[i] < min){
+                min = bt[i];
+                idx = i;
+            }
+        }
+
+        if(idx != -1){
+            time += bt[idx];
+            ct[idx] = time;
+            done[idx] = 1;
+            complete++;
+        } else {
+            time++;
+        }
+    }
+
+    for(int i=0;i<n;i++){
+        tat[i] = ct[i] - at[i];
+        wt[i] = tat[i] - bt[i];
+    }
+
+    float avg_wt=0, avg_tat=0;
+
+    printf("\nProcess\tWT\tTAT\n");
+    for(int i=0;i<n;i++){
+        printf("P%d\t%d\t%d\n",i+1,wt[i],tat[i]);
+        avg_wt+=wt[i];
+        avg_tat+=tat[i];
+    }
+
+    printf("\nAverage WT = %.2f",avg_wt/n);
+    printf("\nAverage TAT = %.2f\n",avg_tat/n);
+
+    return 0;
+}
+
+
+6)
+#include <stdio.h>
+
+int main() {
+    int n;
+    printf("Enter number of processes: ");
+    scanf("%d",&n);
+
+    int period[n], bt[n];
+
+    for(int i=0;i<n;i++){
+        printf("Enter Execution Time and Period of P%d: ",i+1);
+        scanf("%d %d",&bt[i],&period[i]);
+    }
+
+    // Sort by period (ascending)
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            if(period[i] > period[j]){
+                int temp = period[i];
+                period[i] = period[j];
+                period[j] = temp;
+
+                temp = bt[i];
+                bt[i] = bt[j];
+                bt[j] = temp;
+            }
+        }
+    }
+
+    printf("\nExecution Order (Rate Monotonic Priority Order):\n");
+    for(int i=0;i<n;i++){
+        printf("P%d ",i+1);
+    }
+
+    printf("\n");
+    return 0;
+}
+
+/*
+Example:
+P1: Exec=5 Period=20
+P2: Exec=3 Period=10
+P3: Exec=7 Period=30
+
+Sorted by Period:
+
+Order:
+P2 -> P1 -> P3
+
+Gantt (one cycle):
+0 |P2| 3 |P1| 8 |P3| 15
+*/
+
+
+
