@@ -79,7 +79,7 @@ int main() {
         scanf("%d", &arr[i]);
 
     // Setup the initial range for the root thread
-    Range *full = malloc(sizeof(Range));
+    Range *full = (Range*)malloc(sizeof(Range));
     full->left = 0;
     full->right = n - 1;
 

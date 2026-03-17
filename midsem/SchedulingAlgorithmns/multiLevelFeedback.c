@@ -216,6 +216,9 @@ int main() {
                 int preempt = 0;
                 for(int j = 0; j < n; j++) {
                     // If a process is ready at a higher level than our current 'idx'
+
+                    if (j == idx) continue;
+                    
                     if(at[j] <= time && rt[j] > 0 && level[j] < level[idx]) {
                         preempt = 1;
                     }

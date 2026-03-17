@@ -70,7 +70,7 @@ int main() {
     struct data* shared;
 
     // 1. Setup Shared Memory
-    shmid = shmget(IPC_PRIVATE, sizeof(struct data), 0666 | IPC_CREAT);
+    shmid = shmget(1234, sizeof(struct data), 0666 | IPC_CREAT);
     shared = (struct data*)shmat(shmid, NULL, 0);
 
     // 2. Initialize Semaphores
