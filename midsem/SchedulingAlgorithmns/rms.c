@@ -12,6 +12,7 @@ int gcd(int a, int b){
 }
 
 int lcm(int a, int b){
+    if (a == 0 || b == 0) return 0;
     return (a * b) / gcd(a, b);
 }
 
@@ -29,19 +30,18 @@ int main(){
     int last = -2;
 
     printf("Enter number of tasks: ");
-    scanf("%d", &n);
+    if (scanf("%d", &n) != 1) return 1;
 
     printf("\nEnter Execution Time and Period\n");
 
     for(i = 0; i < n; i++){
-
         printf("Task %d Execution Time: ", i + 1);
         scanf("%d", &exec[i]);
 
         printf("Task %d Period: ", i + 1);
         scanf("%d", &period[i]);
 
-        rt[i] = 0; // Starts at 0, will be replenished at time=0
+        rt[i] = 0; // Will be initialized in the first loop at time 0
 
         // Utilization calculation
         U += (float)exec[i] / period[i];
@@ -63,7 +63,7 @@ int main(){
     if(U <= bound)
         printf("Schedulable under RMS\n");
     else
-        printf("May not be schedulable (Requires deeper exact analysis)\n");
+        printf("Warning: U > Bound. May not be schedulable.\n");
 
     // Initialize Gantt chart with the starting time
     sprintf(gantt, "%d", time);
@@ -71,25 +71,30 @@ int main(){
     // Run the simulation for exactly one Hyperperiod
     while(time < hyper){
 
-        // --- 0. REPLENISHMENT LOGIC ---
-        // If the current time is a multiple of a task's period, it "arrives" again
+        // --- 0. REPLENISHMENT & DEADLINE CHECK ---
         for(i = 0; i < n; i++){
-            if(time % period[i] == 0)
-                rt[i] = exec[i];
+            if(time % period[i] == 0) {
+                // If remaining time > 0 when new period starts, it's a miss
+                if(rt[i] > 0 && time > 0) {
+                    printf("\n[!] DEADLINE MISS: Task T%d failed at time %d\n", i + 1, time);
+                }
+                rt[i] = exec[i]; // Reset task for new period
+            }
         }
 
         // --- SELECTION LOGIC ---
         int idx = -1;
-        int min_period = 9999; // RMS prioritizes the shortest period
+        int min_period = 9999; 
 
         for(i = 0; i < n; i++){
+            // Pick task with shortest period (Highest Priority)
             if(rt[i] > 0 && period[i] < min_period){
                 min_period = period[i];
                 idx = i;
             }
         }
 
-        // --- 1. GANTT CHART LOGIC (Formatting Only) ---
+        // --- 1. GANTT CHART LOGIC ---
         if(idx != last) {
             if(last != -2) {
                 sprintf(temp, " | %d", time);
@@ -98,24 +103,24 @@ int main(){
             if(idx == -1) {
                 strcat(gantt, " | Idle");
             } else {
-                sprintf(temp, " | T%d", idx + 1); // using 'T' for Task instead of 'P'
+                sprintf(temp, " | T%d", idx + 1);
                 strcat(gantt, temp);
             }
         }
 
-        // --- 2. MATHEMATICAL / PROCESS LOGIC (State Updates Only) ---
+        // --- 2. EXECUTION ---
         if(idx == -1){
-            time++; // CPU Idle
+            time++; 
         }
         else{
-            rt[idx]--; // Execute task for 1 unit
+            rt[idx]--; 
             time++;
         }
         
-        last = idx; // Remember the state for the next loop
+        last = idx; 
     }
 
-    // Append the final completion time (which will be the Hyperperiod)
+    // Append the final completion time
     sprintf(temp, " | %d", time);
     strcat(gantt, temp);
 

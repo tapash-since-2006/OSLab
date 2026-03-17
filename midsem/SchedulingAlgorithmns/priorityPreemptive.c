@@ -159,7 +159,7 @@ int main(){
     int n,i;
     int at[20], bt[20], rt[20];
     int tat[20], ct[20], wt[20];
-    int pid[20];
+    int pid[20], pri[20];
 
     int completed=0;
     int time=0;
@@ -172,7 +172,7 @@ int main(){
     printf("Enter number of processes: ");
     scanf("%d", &n);
 
-    printf("\nEnter Arrival Time and Burst Time:\n");
+    printf("\nEnter Arrival Time and Burst Time and The Priority(Lower the more Priority):\n");
 
     for(int i=0;i<n;i++){
         pid[i]=i+1;
@@ -182,6 +182,9 @@ int main(){
 
         printf("P%d BT :", i+1);
         scanf("%d", &bt[i]);
+
+        printf("Enter the priority of P%d", i+1);
+        scanf("%d", &pri[i]);
 
         rt[i]=bt[i];
     }
@@ -193,9 +196,9 @@ int main(){
         int min=9999; // lower the value more the priority in this case
 
         for(int i=0;i<n;i++){
-            if(at[i]<=time && rt[i]>0 && rt[i]<min){
+            if(at[i]<=time && rt[i]>0 && pri[i]<min){
                 idx=i;
-                min=rt[i];
+                min=pri[i];
             }
         }
 
