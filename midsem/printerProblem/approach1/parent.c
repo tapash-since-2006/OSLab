@@ -31,8 +31,8 @@ int main(){
   args[0]="./printerAccess";
 
   for(int i=0;i<n;i++){
-    char *id=malloc(10);
-    char *pages=malloc(10);
+    char *id=malloc(10*sizeof(char));
+    char *pages=malloc(10*sizeof(char));
 
     sprintf(id,"%d", students[i].studentID);
     sprintf(pages, "%d", students[i].pages);
