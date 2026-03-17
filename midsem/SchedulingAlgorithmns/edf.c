@@ -59,31 +59,26 @@ int main(){
 
     while(time < hyper){
 
-        // --- 0. REPLENISHMENT & DEADLINE MISS CHECK ---
         for(i = 0; i < n; i++){
             if(time % period[i] == 0){
-                // If there was still work left from the OLD period, it's a miss
                 if(rt[i] > 0 && time > 0) {
                     printf("\n[!] DEADLINE MISS: Task T%d missed at time %d\n", i + 1, time);
                 }
                 rt[i] = exec[i];
-                deadline[i] = time + period[i]; // Absolute Deadline
+                deadline[i] = time + period[i]; 
             }
         }
 
-        // --- SELECTION LOGIC ---
         int idx = -1;
         int earliest = 99999; 
 
         for(i = 0; i < n; i++){
-            // Pick task with the closest absolute deadline
             if(rt[i] > 0 && deadline[i] < earliest){
                 earliest = deadline[i];
                 idx = i;
             }
         }
 
-        // --- 1. GANTT CHART LOGIC ---
         if(idx != last) {
             if(last != -2) {
                 sprintf(temp, " | %d", time);
@@ -97,7 +92,6 @@ int main(){
             }
         }
 
-        // --- 2. EXECUTION ---
         if(idx == -1){
             time++; 
         }

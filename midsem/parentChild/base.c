@@ -21,6 +21,7 @@ int main(){
       printf("Child program peforming the sorting thing");
 
       char *args[n+2];
+      // char **args=(char**)malloc((n+2)*sizeof(char*));
       args[0]="./first";
 
       for(int i=0;i<n;i++){
@@ -30,7 +31,7 @@ int main(){
 
       args[n+1]=NULL;
 
-      execvp(args[0], args);
+      execv(args[0], args);
     }else{
       printf("Parent process is executing");
     }

@@ -35,7 +35,7 @@ int main() {
 
     pid_t pid = fork();
 
-    if(pid == 0) { // Producer
+    if(pid == 0) { // Producer child produces
         for(int i=0; i<10; i++) {
             sem_wait(&sh->empty);
             sem_wait(&sh->mutex);
