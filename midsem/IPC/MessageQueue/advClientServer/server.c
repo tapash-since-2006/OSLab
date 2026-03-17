@@ -1,10 +1,10 @@
-#include<stdio.h>
-#include<sys/ipc.h>
-#include<sys/msg.h>
-#include<unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <unistd.h>
 
-struct msg
-{
+struct msg {
     long type;
     int pid;
     int operation;
@@ -13,49 +13,35 @@ struct msg
     int result;
 };
 
-int main()
-{
+int main() {
     int msgid;
-    struct msg m;
+    struct msg *m = (struct msg *)malloc(sizeof(struct msg));
 
-    msgid = msgget(1234,0666|IPC_CREAT);
-
+    msgid = msgget(1234, 0666 | IPC_CREAT);
     printf("Server Running...\n");
 
-    while(1)
-    {
-        msgrcv(msgid,&m,sizeof(m)-sizeof(long),1,0);
+    while(1) {
+        // Blocks until a message with type 1 arrives
+        msgrcv(msgid, m, sizeof(struct msg) - sizeof(long), 1, 0);
 
-        printf("Request from Client PID: %d\n",m.pid);
+        printf("Request from Client PID: %d\n", m->pid);
 
-        switch(m.operation)
-        {
-            case 1:
-                m.result = m.a + m.b;
+        switch(m->operation) {
+            case 1: m->result = m->a + m->b; break;
+            case 2: m->result = m->a - m->b; break;
+            case 3: m->result = m->a * m->b; break;
+            case 4: 
+                if(m->b != 0) m->result = m->a / m->b; 
+                else m->result = 0; // Simple error handling
                 break;
-
-            case 2:
-                m.result = m.a - m.b;
-                break;
-
-            case 3:
-                m.result = m.a * m.b;
-                break;
-
-            case 4:
-                m.result = m.a / m.b;
-                break;
-
-            default:
-                printf("Invalid Operation\n");
+            default: printf("Invalid Operation\n");
         }
 
-        m.type = m.pid;
-
-        msgsnd(msgid,&m,sizeof(m)-sizeof(long),0);
-
-        printf("Result sent to Client %d\n",m.pid);
+        m->type = m->pid; // Address it back to the specific client
+        msgsnd(msgid, m, sizeof(struct msg) - sizeof(long), 0);
+        printf("Result sent to Client %d\n", m->pid);
     }
 
+    free(m);
     return 0;
 }
