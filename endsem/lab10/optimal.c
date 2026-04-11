@@ -54,3 +54,14 @@ void optimal(int pages[], int n, int nf) {
     }
     printf("Total page faults (Optimal): %d\n", pageFaults);
 }
+
+
+int main() {
+    int n, nf;
+    printf("Number of pages: "); scanf("%d", &n);
+    int pages[n];
+    for (int i = 0; i < n; i++) scanf("%d", &pages[i]);
+    printf("Number of frames: "); scanf("%d", &nf);
+    optimal(pages, n, nf);
+    return 0;
+}

@@ -56,7 +56,7 @@ void sstf(int req[], int n, int head){
 }
 
 
-
+// scan is just like dumb elevator that goes to the absoulte top or bottom but in one direction only
 void scan(int req[], int n, int head, int maxCyl, int dirLeft){
   int sorted[n];
   for(int i=0;i<n;i++) sorted[i]=req[i];
@@ -120,6 +120,8 @@ printf("\nSCAN: %d", pos);
   }
   printf("\nTHM = %d\n", thm);
 }
+
+
 
 
 void cscan(int req[], int n, int head, int maxCyl) {

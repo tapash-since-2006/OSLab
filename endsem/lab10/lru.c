@@ -26,13 +26,13 @@ void lru(int pages[], int n, int nf) {
                 filled++;
             } else {
                 // find LRU victim: frame with smallest lastUsed time
-                int lruSlot = 0;
+                int victimSlot = 0;
                 for (int f = 1; f < nf; f++) {
-                    if (lastUsed[f] < lastUsed[lruSlot]) lruSlot = f;
+                    if (lastUsed[f] < lastUsed[victimSlot]) victimSlot = f;
                 }
-                printf("  (evicting page %d) ", frames[lruSlot]);
-                frames[lruSlot] = page;
-                lastUsed[lruSlot] = i;
+                printf("  (evicting page %d) ", frames[victimSlot]);
+                frames[victimSlot] = page;
+                lastUsed[victimSlot] = i;
             }
             printf("Page %d -> FAULT  frames: ", page);
         }
@@ -46,4 +46,14 @@ void lru(int pages[], int n, int nf) {
     printf("Total page faults (LRU): %d\n", pageFaults);
     printf("Total hits: %d\n", hits);
     printf("Hit ratio: %.2f%%\n", (float)hits / n * 100);
+}
+
+int main() {
+    int n, nf;
+    printf("Number of pages: "); scanf("%d", &n);
+    int pages[n];
+    for (int i = 0; i < n; i++) scanf("%d", &pages[i]);
+    printf("Number of frames: "); scanf("%d", &nf);
+    lru(pages, n, nf);
+    return 0;
 }
