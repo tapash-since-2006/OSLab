@@ -23,8 +23,6 @@ void fcfs(int req[], int n, int head){
 }
 
 
-
-
 void sstf(int req[], int n, int head){
   int visited[n];
   int pos=head;
