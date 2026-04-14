@@ -1,13 +1,15 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 #define MAX 100
 
 int n, m;
-int blocks[MAX];
+int blocks[MAX];        // memory blocks
 int maxNeed[MAX];
-int allocated[MAX];
+int alloc[MAX];
+int need[MAX];
 
-// ---------- SORT BLOCKS (DESCENDING) ----------
+// ---------- SORT (DESCENDING) ----------
 void sortBlocks() {
     for (int i = 0; i < m - 1; i++)
         for (int j = 0; j < m - i - 1; j++)
@@ -18,6 +20,7 @@ void sortBlocks() {
             }
 }
 
+// ---------- PRINT BLOCKS ----------
 void printBlocks() {
     for (int i = 0; i < m; i++)
         printf("%d ", blocks[i]);
@@ -32,46 +35,40 @@ int bestFit(int req) {
     return -1;
 }
 
-// ---------- BANKER'S SAFETY CHECK ----------
-int isSafe() {
-    int work = 0;
-    int finish[MAX] = {0};
-    int need[MAX];
+// ---------- CALCULATE NEED ----------
+void calculateNeed() {
+    for (int i = 0; i < n; i++)
+        need[i] = maxNeed[i] - alloc[i];
+}
 
-    // Available = total free memory
+// ---------- SAFETY CHECK ----------
+bool isSafe(int safeSeq[]) {
+    int work = 0;
+    bool finish[MAX] = {false};
+
+    // Available = sum of blocks
     for (int i = 0; i < m; i++)
         work += blocks[i];
 
-    // Need = Max - Allocated
-    for (int i = 0; i < n; i++)
-        need[i] = maxNeed[i] - allocated[i];
-
-    int safeSeq[MAX];
     int count = 0;
 
     while (count < n) {
-        int found = 0;
+        bool found = false;
 
         for (int i = 0; i < n; i++) {
             if (!finish[i] && need[i] <= work) {
-                work += allocated[i];
+                work += alloc[i];
+                finish[i] = true;
                 safeSeq[count++] = i;
-                finish[i] = 1;
-                found = 1;
+                found = true;
             }
         }
 
         if (!found)
-            return 0;  // unsafe
+            return false;
     }
 
-    // PRINT SAFE SEQUENCE
-    printf("System is SAFE\nSafe sequence: ");
-    for (int i = 0; i < n; i++)
-        printf("P%d ", safeSeq[i]);
-    printf("\n");
-
-    return 1;
+    return true;
 }
 
 // ---------- PROCESS REQUEST ----------
@@ -80,42 +77,49 @@ void processRequest(int pid, int req) {
 
     // Sort before
     sortBlocks();
-    printf("Memory before allocation (sorted):\n");
+    printf("Memory before allocation (sorted)\n");
     printBlocks();
 
-    // Best fit
     int idx = bestFit(req);
     if (idx == -1) {
-        printf("-> Allocation failed (no suitable block)\n");
+        printf("-> Allocation failed\n");
         return;
     }
 
-    // Try allocation (temporary)
+    // TEMP allocation
     blocks[idx] -= req;
-    allocated[pid] += req;
+    alloc[pid] += req;
+    calculateNeed();
 
     printf("-> P%d allocated (remaining %d)\n", pid, blocks[idx]);
 
     // Sort after
     sortBlocks();
-    printf("Memory after allocation (sorted):\n");
+    printf("Memory after allocation (sorted)\n");
     printBlocks();
 
-    // Safety check
-    if (!isSafe()) {
-        printf("System is UNSAFE! Rolling back...\n");
+    // SAFETY CHECK
+    int safeSeq[MAX];
+    if (isSafe(safeSeq)) {
+        printf("System is SAFE\nSafe sequence ");
+        for (int i = 0; i < n; i++)
+            printf("P%d ", safeSeq[i]);
+        printf("\n");
+    } else {
+        printf("System is UNSAFE! Rolling back\n");
 
         // rollback
-        allocated[pid] -= req;
+        alloc[pid] -= req;
         blocks[idx] += req;
+        calculateNeed();
     }
 }
 
-// ---------- FINAL OUTPUT ----------
+// ---------- FINAL ----------
 void printFinal() {
-    printf("\nFinal Allocation:\n");
+    printf("\nFinal Allocation\n");
     for (int i = 0; i < n; i++)
-        printf("P%d: %d\n", i, allocated[i]);
+        printf("P%d: %d\n", i, alloc[i]);
 }
 
 // ---------- MAIN ----------
@@ -126,16 +130,18 @@ int main() {
     printf("Enter number of memory blocks: ");
     scanf("%d", &m);
 
-    printf("Enter sizes of memory blocks:\n");
+    printf("Enter block sizes:\n");
     for (int i = 0; i < m; i++)
         scanf("%d", &blocks[i]);
 
-    printf("Enter maximum memory each process can need:\n");
+    printf("Enter max need:\n");
     for (int i = 0; i < n; i++) {
         printf("P%d: ", i);
         scanf("%d", &maxNeed[i]);
-        allocated[i] = 0;
+        alloc[i] = 0;
     }
+
+    calculateNeed();
 
     printf("\nEnter (pid request), -1 to stop:\n");
 
@@ -147,8 +153,8 @@ int main() {
         int req;
         scanf("%d", &req);
 
-        if (allocated[pid] + req > maxNeed[pid]) {
-            printf("Request exceeds maximum need of P%d\n", pid);
+        if (alloc[pid] + req > maxNeed[pid]) {
+            printf("Exceeds max need\n");
             continue;
         }
 
