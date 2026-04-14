@@ -94,22 +94,28 @@ int main() {
     else
         printf("System is SAFE (No deadlock)\n");
 
-// (b) User-defined additional request
+
+
+
 printf("\n(b) Additional Request\n");
 
-int pid, res, amount;
+int pid;
+int temp[m];
 
 printf("Enter process number: ");
 scanf("%d", &pid);
 
-printf("Enter resource index (0 to %d): ", m - 1);
-scanf("%d", &res);
+printf("Enter additional request vector for P%d:\n", pid);
 
-printf("Enter number of instances to request: ");
-scanf("%d", &amount);
+// Step 1: take input first
+for (int j = 0; j < m; j++) {
+    scanf("%d", &temp[j]);
+}
 
-// Apply the request
-request[pid][res] += amount;
+// Step 2: add after full input
+for (int j = 0; j < m; j++) {
+    request[pid][j] += temp[j];
+}
 
 printf("\nAfter applying request:\n");
 

@@ -53,15 +53,24 @@ bool isSafe(int safeSeq[]) {
                     }
                 }
                 if (canAllocate) {
-                    for (int j = 0; j < m; j++)
+                    printf("P%d can execute (Need <= Work). Running...\n", i);
+                    for (int j = 0; j < m; j++){
                         work[j] += alloc[i][j];
+                    }
+                    printf("P%d finished. Updated Work: ", i);
+                    for (int j = 0; j < m; j++) printf("%d ", work[j]);
+                    printf("\n");
+
                     finish[i] = true;
                     safeSeq[count++] = i;
                     found = true;
-                }
+                }   
             }
         }
-        if (!found) return false;
+        if (!found) {
+            printf("No suitable process found. System is in UNSAFE state.\n");
+            return false;
+        }
     }
     return true;
 }

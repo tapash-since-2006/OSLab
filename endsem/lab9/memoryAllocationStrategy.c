@@ -78,7 +78,6 @@ void bestFit() {
             procs[j].alloc = holes[bestIdx].hno;
             holes[bestIdx].hrem -= procs[j].psize;
         }
-        // NO break here — must scan all holes to find the smallest fit
     }
 }
 
