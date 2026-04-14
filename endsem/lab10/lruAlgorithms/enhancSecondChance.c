@@ -222,6 +222,7 @@ void enhancedSecondChance(int pages[], int n, int nf, int modified[]) {
                 R[victim] = 1;
                 M[victim] = modified[i];
 
+                // very very important line
                 hand = (victim + 1) % nf;
             }
 

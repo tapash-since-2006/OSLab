@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 
 
 int abs_val(int x){
@@ -209,6 +210,58 @@ void clook(int req[], int n, int head) {
 }
 
 
+void oppositeClook(int req[], int n, int head){
+  int thm=0;
+  int sorted[n];
+  for(int i=0;i<n;i++){
+    sorted[i]=req[i];
+  }
+
+  for(int i=0;i<n-1;i++){
+    for(int j=0;j<n-i-1;j++){
+      if(sorted[j+1]<sorted[j]){
+        int temp=sorted[j+1];
+        sorted[j+1]=sorted[j];
+        sorted[j]=temp;
+      }
+    }
+  }
+
+  int pos=head;
+  printf("\nOpposite C-LOOK: %d", pos);
+
+  for(int i=n-1;i>=0;i--){
+    if(sorted[i]<head){
+      thm+=abs_val(sorted[i]-pos);
+      pos=sorted[i];
+      printf(" -> %d", pos);
+    }
+  }
+
+  bool hasRight=false;
+  for(int i=n-1;i>=0;i--){
+    if(sorted[i]>=head){
+      hasRight=true;
+      break;
+    }
+  }
+
+  if(hasRight){
+    pos=sorted[n-1];
+    printf(" ->[JUMP]-> %d", pos);
+    for(int i=n-2;i>=0;i--){
+      if(sorted[i]>=head){
+        thm+=abs_val(pos-sorted[i]);
+        pos=sorted[i];
+        printf(" -> %d", pos);
+      }
+    }
+  }
+
+  printf("\nTHM = %d\n", thm);
+}
+
+
 int main() {
     int n, head, maxCyl;
     printf("Number of requests: "); scanf("%d", &n);
@@ -224,6 +277,7 @@ int main() {
     cscan(req, n, head, maxCyl-1);
     look(req, n, head, 1);
     clook(req, n, head);
+    oppositeClook(req,n,head);
 
     return 0;
 }
