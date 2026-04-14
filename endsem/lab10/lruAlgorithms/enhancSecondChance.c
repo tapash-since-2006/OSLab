@@ -132,7 +132,6 @@
 //     return 0;
 // }
 
-
 #include <stdio.h>
 
 void enhancedSecondChance(int pages[], int n, int nf, int modified[]) {
@@ -140,7 +139,7 @@ void enhancedSecondChance(int pages[], int n, int nf, int modified[]) {
     int filled = 0, pageFaults = 0;
     int hand = 0;
 
-    // initialize
+    // Initialize
     for (int i = 0; i < nf; i++) {
         frames[i] = -1;
         R[i] = 0;
@@ -151,7 +150,7 @@ void enhancedSecondChance(int pages[], int n, int nf, int modified[]) {
         int page = pages[i];
         int hit = 0;
 
-        // check HIT
+        // Check HIT
         for (int f = 0; f < nf; f++) {
             if (frames[f] == page) {
                 hit = 1;
@@ -165,32 +164,28 @@ void enhancedSecondChance(int pages[], int n, int nf, int modified[]) {
         if (!hit) {
             pageFaults++;
 
-            // empty slot
+            // Empty slot available
             if (filled < nf) {
                 frames[filled] = page;
                 R[filled] = 1;
                 M[filled] = modified[i];
                 filled++;
-            } 
-            else {
+            } else {
                 int victim = -1;
 
-                // CLOCK SEARCH (simple 2-bit priority)
+                // Pass 1: (0,0) - not recently used, not modified (best)
                 for (int count = 0; count < nf; count++) {
                     int idx = (hand + count) % nf;
-
-                    // (0,0) best
                     if (R[idx] == 0 && M[idx] == 0) {
                         victim = idx;
                         break;
                     }
                 }
 
-                // if not found (0,0), check (0,1)
                 if (victim == -1) {
+                    // Pass 2: (0,1) - not recently used but modified
                     for (int count = 0; count < nf; count++) {
                         int idx = (hand + count) % nf;
-
                         if (R[idx] == 0 && M[idx] == 1) {
                             victim = idx;
                             break;
@@ -198,12 +193,29 @@ void enhancedSecondChance(int pages[], int n, int nf, int modified[]) {
                     }
                 }
 
-                // if still not found, take first available
                 if (victim == -1) {
-                    victim = hand;
+                    // Pass 3: (1,0) - recently used but not modified
+                    for (int count = 0; count < nf; count++) {
+                        int idx = (hand + count) % nf;
+                        if (R[idx] == 1 && M[idx] == 0) {
+                            victim = idx;
+                            break;
+                        }
+                    }
                 }
 
-                printf("Evicting page %d (R=%d M=%d)\n",
+                if (victim == -1) {
+                    // Pass 4: (1,1) - recently used and modified (worst)
+                    for (int count = 0; count < nf; count++) {
+                        int idx = (hand + count) % nf;
+                        if (R[idx] == 1 && M[idx] == 1) {
+                            victim = idx;
+                            break;
+                        }
+                    }
+                }
+
+                printf("Evicting page %d (R=%d, M=%d)\n",
                        frames[victim], R[victim], M[victim]);
 
                 frames[victim] = page;
@@ -214,18 +226,23 @@ void enhancedSecondChance(int pages[], int n, int nf, int modified[]) {
             }
 
             printf("Page %d -> FAULT | Frames: ", page);
-        } 
-        else {
+        } else {
             printf("Page %d -> HIT   | Frames: ", page);
         }
 
-        // display
+        // Display current frames
         for (int f = 0; f < nf; f++) {
             if (frames[f] == -1)
                 printf(" - ");
             else
-                printf("%d ", frames[f]);
+                printf("%2d ", frames[f]);
         }
+
+        // Display R and M bits
+        printf("| R: ");
+        for (int f = 0; f < nf; f++) printf("%d ", R[f]);
+        printf("| M: ");
+        for (int f = 0; f < nf; f++) printf("%d ", M[f]);
         printf("\n");
     }
 
@@ -235,7 +252,7 @@ void enhancedSecondChance(int pages[], int n, int nf, int modified[]) {
 int main() {
     int n, nf;
 
-    printf("Number of pages: ");
+    printf("Enter number of page references: ");
     scanf("%d", &n);
 
     int pages[n], modified[n];
@@ -244,12 +261,14 @@ int main() {
     for (int i = 0; i < n; i++)
         scanf("%d", &pages[i]);
 
-    printf("Enter modified bits (0/1): ");
+    printf("Enter modified bits (0/1) for each reference: ");
     for (int i = 0; i < n; i++)
         scanf("%d", &modified[i]);
 
-    printf("Number of frames: ");
+    printf("Enter number of frames: ");
     scanf("%d", &nf);
+
+    printf("\n--- Enhanced Second-Chance Algorithm ---\n\n");
 
     enhancedSecondChance(pages, n, nf, modified);
 
