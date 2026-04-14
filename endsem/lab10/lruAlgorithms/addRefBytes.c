@@ -26,7 +26,7 @@ void additionalReferenceByte(int pages[], int n, int nf) {
         for (int f = 0; f < nf; f++) {
             if (frames[f] == page) {
                 hit = 1;
-                refByte[f] |= 0x80;   // set MSB
+                refByte[f] |= (1<<(BITS-1));   // set MSB
                 break;
             }
         }
@@ -36,7 +36,7 @@ void additionalReferenceByte(int pages[], int n, int nf) {
 
             if (filled < nf) {
                 frames[filled] = page;
-                refByte[filled] = 0x80;
+                refByte[filled] = (1<<(BITS-1));
                 timeStamp[filled] = clock++;
                 filled++;
             } 
@@ -59,7 +59,7 @@ void additionalReferenceByte(int pages[], int n, int nf) {
                 printf("  (evicting page %d) ", frames[victim]);
 
                 frames[victim] = page;
-                refByte[victim] = 0x80;
+                refByte[victim] =(1<<(BITS-1));
                 timeStamp[victim] = clock++;
             }
 
